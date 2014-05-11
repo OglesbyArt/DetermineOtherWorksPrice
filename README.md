@@ -1,62 +1,113 @@
-DetermineOtherWorksPrice
-========================
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author katiejesperson
+ */
+ package oglesby;
+
 import java.util.*;
 
-public class DetermineOtherWorkPrice
-{
+
+
+class DetermineOtherWorkPrice {
 
 private String artistFirstName;
 private String artistLastName;
-private String titleOfWork;
-private String classification;
-//private date dateOfWork;
+private Date dateOfWork;
 private double height;
 private double width;
 private String medium;
 private String subject;
 private double suggestedMaximumPurchasePrice;
 
-
-
     //Desc: constructor for DetermineOtherWorkPrice
-	//Post: allows class to set the value of all Painting fields 
-    // in a record
-    public DetermineOtherWorkPrice(String fname, String lname, String work, String clas, double h,double w, String med, String sub, double max)
+    //Post: Creates a new DetermineOtherWorkPrice
+    public DetermineOtherWorkPrice()
     {
-		artistFirstName=fname;
-		artistLastName=lname;
-		titleOfWork=work;
-	//	dateOfWork=dwork
-		classification=clas;
-		height=h;
-		width=w;
-		medium=med;
-		subject=sub;
-		suggestedMaximumPurchasePrice=max;
+        executeDetermineOtherWorkPrice();
     }
 
-    
-   //Desc: get the fashionability value for the artist of the 
-    // painting in question
-    //Pre: the fashionability value for the artist must exist in 
-    // the artist file, if it doesn’t the method returns 0
-    //Return: the fashionability value for the artist or 0
-    public static double getFashionabilityValue()
+    //Desc: Executes the major methods that allow a user to buy a painting.
+    //  First the user must input values, then the user will view the
+    //  suggested price. If the user chooses by buy then the bought painting
+    //  file will be updated, otherwise the user can go back to the main
+    //  menu
+    //Pre: The coefficient of similarity must not be zero, otherwise
+    //  the user is not interested in buying the painting.
+    //Post: The user will have viewed the suggested maximum price for
+    //  the painting they want to buy. If they chose to buy it, the files are
+    //  now updated accordingingly.
+    public  void executeDetermineOtherWorkPrice()
     {
-    	//instentiate Artist object ;
-    	//artist.find(artistLastName, artistFirstName) ;
-    	//artistfile.get(fashionabilityvalue);
-    	double fashionabilityValue=0;
-    	return fashionabilityValue;
+       BoughtPainting bp = new BoughtPainting();
+
+        bp.readInRecord();
+        artistFirstName= bp.getArtistsFirstName();
+        artistLastName=bp.getArtistLastName();
+        dateOfWork= bp.getDateofWork();
+        height=bp.getHeight();
+        width=bp.getWidth();
+        medium=bp.getMedium();
+        subject=bp.getSubject();
+
+
+        suggestedMaximumPurchasePrice=calculateOtherWorkPrice();
+
+        if ( userBuyChoice(suggestedMaximumPurchasePrice))
+
+                bp.addRecentlyBought();
+
+        else
+        UserInterface.pressEnter();
     }
 
-    //Desc: calculate the price for the “Other Work” that the user wants to buy
-    //Pre: the area of the painting and the fashionability value must exist
-    //Return: the price for the “Other Work”
+    //Desc: calculate the price for the Masterwork the user wants to buy
+    //Pre: there must be a most similar work and that work must have a an
+    //  auction purchase price, the user must have entered
+    //  the date of the work correctly
+    //Return: the price of the Masterwork
     public double calculateOtherWorkPrice()
     {
-    	double fashionability=getFashionabilityValue();
-    	double area=width*height;
-    	return fashionability*area;
+
+        Artist ap = new Artist();
+
+    	int fashionability=ap.findFashionabilityValue(artistFirstName, artistLastName);
+        if (fashionability==0)
+        {
+            UserInterface.pressEnter();
+        }
+
+        double otherWorkPrice=fashionability*height*width;
+
+        return otherWorkPrice;
+
+
     }
+
+
+    //Desc: display a value to the user and the user responds
+    //  which is returned as a true or false value
+    //Pre: the argument must be a double value
+    //Return: a boolean value based on the user’s input
+    public static boolean userBuyChoice(double d)
+    {
+    	System.out.println("The price is" +d +". Do you want to buy? y/n");
+    	String choice=UserInterface.getString();
+        while (!choice.equalsIgnoreCase("y")&&!choice.equalsIgnoreCase("n"))
+        {
+            System.out.println("Please enter the correct format, either y or n");
+            System.out.println("The price is" +d +". Do you want to buy? y/n");
+            choice=UserInterface.getString();
+        }
+
+        if (choice.equalsIgnoreCase("y")) return true;
+        else return false;
+
+
+    }
+
 }
