@@ -15,15 +15,6 @@ import java.util.*;
 
 class DetermineOtherWorkPrice {
 
-private String artistFirstName;
-private String artistLastName;
-private Date dateOfWork;
-private double height;
-private double width;
-private String medium;
-private String subject;
-private double suggestedMaximumPurchasePrice;
-
     //Desc: constructor for DetermineOtherWorkPrice
     //Post: Creates a new DetermineOtherWorkPrice
     public DetermineOtherWorkPrice()
@@ -41,28 +32,18 @@ private double suggestedMaximumPurchasePrice;
     //Post: The user will have viewed the suggested maximum price for
     //  the painting they want to buy. If they chose to buy it, the files are
     //  now updated accordingingly.
-    public  void executeDetermineOtherWorkPrice()
+    public static void executeDetermineOtherWorkPrice()
     {
        BoughtPainting bp = new BoughtPainting();
 
         bp.readInRecord();
-        artistFirstName= bp.getArtistsFirstName();
-        artistLastName=bp.getArtistLastName();
-        dateOfWork= bp.getDateofWork();
-        height=bp.getHeight();
-        width=bp.getWidth();
-        medium=bp.getMedium();
-        subject=bp.getSubject();
-
-
-        suggestedMaximumPurchasePrice=calculateOtherWorkPrice();
+        double area =bp.getHeight()*bp.getWidth();
+        double suggestedMaximumPurchasePrice=calculateOtherWorkPrice(bp.getArtistsFirstName(), bp.getArtistLastName(),area);
 
         if ( userBuyChoice(suggestedMaximumPurchasePrice))
 
                 bp.addRecentlyBought();
-
-        else
-        UserInterface.pressEnter();
+        else UserInterface.pressEnter();
     }
 
     //Desc: calculate the price for the Masterwork the user wants to buy
@@ -70,7 +51,7 @@ private double suggestedMaximumPurchasePrice;
     //  auction purchase price, the user must have entered
     //  the date of the work correctly
     //Return: the price of the Masterwork
-    public double calculateOtherWorkPrice()
+    public static double calculateOtherWorkPrice(String artistFirstName, String artistLastName, double area)
     {
 
         Artist ap = new Artist();
@@ -81,7 +62,7 @@ private double suggestedMaximumPurchasePrice;
             UserInterface.pressEnter();
         }
 
-        double otherWorkPrice=fashionability*height*width;
+        double otherWorkPrice=fashionability*area;
 
         return otherWorkPrice;
 
@@ -95,7 +76,7 @@ private double suggestedMaximumPurchasePrice;
     //Return: a boolean value based on the user’s input
     public static boolean userBuyChoice(double d)
     {
-    	System.out.println("The price is" +d +". Do you want to buy? y/n");
+    	System.out.println("The price is" + d +". Do you want to buy? y/n");
     	String choice=UserInterface.getString();
         while (!choice.equalsIgnoreCase("y")&&!choice.equalsIgnoreCase("n"))
         {
