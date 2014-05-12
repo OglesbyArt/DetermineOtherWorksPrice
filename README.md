@@ -37,6 +37,7 @@ class DetermineOtherWorkPrice {
        BoughtPainting bp = new BoughtPainting();
 
         bp.readInRecord();
+        bp.setClassification("Other");
         double area =bp.getHeight()*bp.getWidth();
         boolean choice=false;
         double suggestedMaximumPurchasePrice=calculateOtherWorkPrice(bp.getArtistsFirstName(), bp.getArtistLastName(),area);
@@ -48,6 +49,7 @@ class DetermineOtherWorkPrice {
         else choice = userBuyChoice(suggestedMaximumPurchasePrice);
         if ( choice)
         {
+            bp.setSuggestedMaximumPurchasePrice(suggestedMaximumPurchasePrice);
             bp.addRecentlyBought();
             UserInterface.pressEnter();
         }
