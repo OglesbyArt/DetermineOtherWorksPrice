@@ -38,11 +38,20 @@ class DetermineOtherWorkPrice {
 
         bp.readInRecord();
         double area =bp.getHeight()*bp.getWidth();
+        boolean choice=false;
         double suggestedMaximumPurchasePrice=calculateOtherWorkPrice(bp.getArtistsFirstName(), bp.getArtistLastName(),area);
 
-        if ( userBuyChoice(suggestedMaximumPurchasePrice))
+        if (suggestedMaximumPurchasePrice==0)
+        {
+            choice=false;
+        }
+        else choice = userBuyChoice(suggestedMaximumPurchasePrice);
+        if ( choice)
+        {
+            bp.addRecentlyBought();
+            UserInterface.pressEnter();
+        }
 
-                bp.addRecentlyBought();
         else UserInterface.pressEnter();
     }
 
@@ -59,8 +68,10 @@ class DetermineOtherWorkPrice {
     	int fashionability=ap.findFashionabilityValue(artistFirstName, artistLastName);
         if (fashionability==0)
         {
-            UserInterface.pressEnter();
+            System.out.println("The Fashionability value for this artist either does not exist or is zero");
+            return 0;
         }
+            
 
         double otherWorkPrice=fashionability*area;
 
