@@ -65,7 +65,7 @@ class DetermineOtherWorkPrice {
     public static double calculateOtherWorkPrice(String artistFirstName, String artistLastName, double area)
     {
 
-        Artist ap = new Artist();
+        DetermineMostSimilarWork ap = new DetermineMostSimilarWork();
 
     	int fashionability=ap.findFashionabilityValue(artistFirstName, artistLastName);
         if (fashionability==0)
@@ -73,7 +73,7 @@ class DetermineOtherWorkPrice {
             System.out.println("The Fashionability value for this artist either does not exist or is zero");
             return 0;
         }
-            
+
 
         double otherWorkPrice=fashionability*area;
 
