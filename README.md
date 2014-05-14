@@ -51,10 +51,17 @@ class DetermineOtherWorkPrice {
         {
             bp.setSuggestedMaximumPurchasePrice(suggestedMaximumPurchasePrice);
             bp.addRecentlyBought();
+            System.out.println("");
+             System.out.println("Press <ENTER> to return to the Buy menu.");
             UserInterface.pressEnter();
         }
 
-        else UserInterface.pressEnter();
+        else
+        {
+            System.out.println("");
+            System.out.println("Press <ENTER> to return to the Buy menu.");
+            UserInterface.pressEnter();
+        }
     }
 
     //Desc: calculate the price for the Masterwork the user wants to buy
@@ -89,12 +96,12 @@ class DetermineOtherWorkPrice {
     //Return: a boolean value based on the user’s input
     public static boolean userBuyChoice(double d)
     {
-    	System.out.println("The price is" + d +". Do you want to buy? y/n");
+    	System.out.println("The Suggested Maximum Purchase Price is " + d +". Do you want to buy? y/n");
     	String choice=UserInterface.getString();
         while (!choice.equalsIgnoreCase("y")&&!choice.equalsIgnoreCase("n"))
         {
             System.out.println("Please enter the correct format, either y or n");
-            System.out.println("The price is" +d +". Do you want to buy? y/n");
+            System.out.println("The Suggested Maximum Purchase Price is " +d +". Do you want to buy? y/n");
             choice=UserInterface.getString();
         }
 
