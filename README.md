@@ -10,6 +10,7 @@
  package oglesby;
 
 import java.util.*;
+import java.text.*;
 
 
 
@@ -44,6 +45,7 @@ class DetermineOtherWorkPrice {
 
         if (suggestedMaximumPurchasePrice==0)
         {
+            System.out.println("The Fashionability value for this artist either does not exist or is zero");
             choice=false;
         }
         else choice = userBuyChoice(suggestedMaximumPurchasePrice);
@@ -77,7 +79,7 @@ class DetermineOtherWorkPrice {
     	int fashionability=ap.findFashionabilityValue(artistFirstName, artistLastName);
         if (fashionability==0)
         {
-            System.out.println("The Fashionability value for this artist either does not exist or is zero");
+
             return 0;
         }
 
@@ -96,12 +98,15 @@ class DetermineOtherWorkPrice {
     //Return: a boolean value based on the user’s input
     public static boolean userBuyChoice(double d)
     {
-    	System.out.println("The Suggested Maximum Purchase Price is " + d +". Do you want to buy? y/n");
+    	DecimalFormat dec = new DecimalFormat("#.##");
+        DecimalFormat comma = new DecimalFormat("#,###.00");
+        double doubleComma =Double.parseDouble(dec.format(d));
+        System.out.println("The Suggested Maximum Purchase Price is $" +comma.format(doubleComma) +". Do you want to buy? y/n");
     	String choice=UserInterface.getString();
         while (!choice.equalsIgnoreCase("y")&&!choice.equalsIgnoreCase("n"))
         {
             System.out.println("Please enter the correct format, either y or n");
-            System.out.println("The Suggested Maximum Purchase Price is " +d +". Do you want to buy? y/n");
+            System.out.println("The Suggested Maximum Purchase Price is $" +comma.format(doubleComma) +". Do you want to buy? y/n");
             choice=UserInterface.getString();
         }
 
